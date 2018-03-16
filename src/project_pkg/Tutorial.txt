@@ -1,0 +1,47 @@
+1) Crie um objeto do tipo Drawer passando a resolução da imagem como parâmetro
+    Ex: Drawer drawer(640, 480)
+
+2) Chame o método Init de algum lugar onde o contexto do opengl já exista (Recomendo logo após da inicialização do opengl)
+    Ex: drawer.Init()
+
+3) Chame o método UpdateSpaceMode para alterar o modo exibição das imagens (Pode ser feito só uma vez caso a exibição seja sempre igual)
+    Ex: drawer.UpdateSpaceMode(Drawer::Box)
+    Drawer::Plane = Imagem 2D
+    Drawer::Box = Imagem 3D
+    Drawer::Ray = Imagem 3D com intensidade (Está com erros)
+
+4) Altere a propriedade ColorMode do objeto drawer para o que tipo de cores que você deseja (Por padrão é HLS)
+    Ex: drawer.ColorMode = Drawer::HLS
+    Drawer::Binary = Imagem em preto e branco
+    Drawer::HLS = Imagem será colorida de acordo com o valor dos pontos, bom para visualiar nuvem de pontos
+    Drawer::RGB = Interpreta a imagem como uma textura
+
+5) Chame o método Load passando seu vetor de dados, diversos formatos são suportados
+    Ex: drawer.Load(data)
+
+6) Chame o método Draw para exibir os dados
+    Ex: drawer.Draw()
+
+
+Exemplo para nuvem de pontos:
+
+    Suponhe-se que a nuvem é uma matrix de float, onde cada ponto representa a profundidade do ponto, e a posição x, y é dada pela posição na matrix, que tem o tamanho da imagem
+    Por exemplo, para uma nuvem de resulação 4x4
+    Data = [    1.5, 54.2
+                5.2, 52,4 ]
+    // Construtor
+    Drawer drawer(4, 4);
+
+    // Depois de inicializar opengl
+    drawer.Init();
+    drawer.ColorMode = Drawer::HLS;
+    if(Mostrar3D)
+        drawer.UpdateSpaceMode(Drawer::Box);
+    else
+        drawer.UpdateSpaceMode(Drawer::Plane);
+
+    // Quando os dados estiverem disponíveis
+    drawer.Load(Data);
+
+    // Onde você usa o opengl pra exibir os dados
+    drawer.Draw();
